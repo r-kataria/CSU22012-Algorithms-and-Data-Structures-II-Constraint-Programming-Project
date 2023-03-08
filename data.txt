@@ -1,0 +1,90 @@
+Domain-1,2,3,4,5
+Var-English
+Var-Spaniard
+Var-Ukrainian
+Var-Norwegian
+Var-Japanese
+Var-Yellow
+Var-Blue
+Var-Red
+Var-Ivory
+Var-Green
+Var-Fox
+Var-Horse
+Var-Snails
+Var-Dog
+Var-Zebra
+Var-Snakes and Ladders
+Var-Cluedo
+Var-Pictionary
+Var-Travel the World
+Var-Backgammon
+Var-Coffee
+Var-Water
+Var-Tea
+Var-Milk
+Var-Orange Juice
+Cons-Englishman = Red
+Cons-Spaniard = Dog
+Cons-Coffee = Green
+Cons-Ukrainian = Tea
+Cons-Green = Ivory + 1
+Cons-Snakes and Ladders = Snails
+Cons-Cluedo = Yellow
+Cons-Milk = 3
+Cons-Norwegian = 1
+Cons-Pictionary = abs(Fox + 1)
+Cons-Cluedo = abs(Horse + 1)
+Cons-Travel the World = Orange Juice
+Cons-Japanese = Backgammon
+Cons-Norwegian = abs(Blue + 1)
+Cons-diff(English,Spaniard)
+Cons-diff(English,Ukrainian)
+Cons-diff(English,Norwegian)
+Cons-diff(English,Japanese)
+Cons-diff(Spaniard,Ukrainian)
+Cons-diff(Spaniard,Norwegian)
+Cons-diff(Spaniard,Japanese)
+Cons-diff(Ukrainian,Norwegian)
+Cons-diff(Ukrainian,Japanese)
+Cons-diff(Norwegian,Japanese)
+Cons-diff(Yellow,Blue)
+Cons-diff(Yellow,Red)
+Cons-diff(Yellow,Ivory)
+Cons-diff(Yellow,Green)
+Cons-diff(Blue,Red)
+Cons-diff(Blue,Ivory)
+Cons-diff(Blue,Green)
+Cons-diff(Red,Ivory)
+Cons-diff(Red,Green)
+Cons-diff(Ivory,Green)
+Cons-diff(Fox,Horse)
+Cons-diff(Fox,Snails)
+Cons-diff(Fox,Dog)
+Cons-diff(Fox,Zebra)
+Cons-diff(Horse,Snails)
+Cons-diff(Horse,Dog)
+Cons-diff(Horse,Zebra)
+Cons-diff(Snails,Dog)
+Cons-diff(Snails,Zebra)
+Cons-diff(Dog,Zebra)
+Cons-diff(Snakes and Ladders,Cluedo)
+Cons-diff(Snakes and Ladders,Pictionary)
+Cons-diff(Snakes and Ladders,Travel the World)
+Cons-diff(Snakes and Ladders,Backgammon)
+Cons-diff(Cluedo,Pictionary)
+Cons-diff(Cluedo,Travel the World)
+Cons-diff(Cluedo,Backgammon)
+Cons-diff(Pictionary,Travel the World)
+Cons-diff(Pictionary,Backgammon)
+Cons-diff(Travel the World,Backgammon)
+Cons-diff(Coffee,Water)
+Cons-diff(Coffee,Tea)
+Cons-diff(Coffee,Milk)
+Cons-diff(Coffee,Orange Juice)
+Cons-diff(Water,Tea)
+Cons-diff(Water,Milk)
+Cons-diff(Water,Orange Juice)
+Cons-diff(Tea,Milk)
+Cons-diff(Tea,Orange Juice)
+Cons-diff(Milk,Orange Juice)
