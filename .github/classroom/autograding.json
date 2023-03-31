@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Zebra Test Runner",
+      "setup": "javac -cp ./lib/junit-4.13.2.jar:./lib/hamcrest-core-1.3.jar ./src/main/java/* ./src/test_files/java/* -d ./bin/",
+      "run": "java -cp ./bin/:./lib/junit-4.13.2.jar:./lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore test_files.java.ZebraTest",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
