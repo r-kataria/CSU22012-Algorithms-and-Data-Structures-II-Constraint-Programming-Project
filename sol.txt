@@ -1,0 +1,25 @@
+Sol-English-3
+Sol-Spaniard-4
+Sol-Ukrainian-2
+Sol-Norwegian-1
+Sol-Japanese-5
+Sol-Yellow-1
+Sol-Blue-2
+Sol-Red-3
+Sol-Ivory-4
+Sol-Green-5
+Sol-Fox-1
+Sol-Horse-2
+Sol-Snails-3
+Sol-Dog-4
+Sol-Zebra-5
+Sol-Snakes and Ladders-3
+Sol-Cluedo-1
+Sol-Pictionary-2
+Sol-Travel the World-4
+Sol-Backgammon-5
+Sol-Coffee-5
+Sol-Water-1
+Sol-Tea-2
+Sol-Milk-3
+Sol-Orange Juice-4
