@@ -24,20 +24,20 @@ Var-Water
 Var-Tea
 Var-Milk
 Var-Orange Juice
-Cons-Englishman = Red
-Cons-Spaniard = Dog
-Cons-Coffee = Green
-Cons-Ukrainian = Tea
-Cons-Green = Ivory + 1
-Cons-Snakes and Ladders = Snails
-Cons-Cluedo = Yellow
-Cons-Milk = 3
-Cons-Norwegian = 1
-Cons-Pictionary = abs(Fox + 1)
-Cons-Cluedo = abs(Horse + 1)
-Cons-Travel the World = Orange Juice
-Cons-Japanese = Backgammon
-Cons-Norwegian = abs(Blue + 1)
+Cons-eqVV(English = Red)
+Cons-eqVV(Spaniard = Dog)
+Cons-eqVV(Coffee = Green)
+Cons-eqVV(Ukrainian = Tea)
+Cons-eqVPC(Green = Ivory + 1)
+Cons-eqVV(Snakes and Ladders = Snails)
+Cons-eqVV(Cluedo = Yellow)
+Cons-eqVC(Milk = 3)
+Cons-eqVC(Norwegian = 1)
+Cons-abs(Pictionary - Fox = 1)
+Cons-abs(Cluedo - Horse = 1)
+Cons-eqVV(Travel the World = Orange Juice)
+Cons-eqVV(Japanese = Backgammon)
+Cons-abs(Norwegian - Blue = 1)
 Cons-diff(English,Spaniard)
 Cons-diff(English,Ukrainian)
 Cons-diff(English,Norwegian)
