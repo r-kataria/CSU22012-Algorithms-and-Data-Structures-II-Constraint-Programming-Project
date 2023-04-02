@@ -226,9 +226,7 @@ public class ConstraintSolver {
         }
     
         Variable selectedVariable = selectUnassignedVariable();
-    
-        System.out.println("==============Selected variable: " + selectedVariable);
-    
+        
         if (selectedVariable == null) {
             return isSolution(); // If no more unassigned variables, check if the current assignment is a solution.
         }
@@ -257,13 +255,13 @@ public class ConstraintSolver {
 
     private boolean applyConstraintsRecursively() {
         for (Constraint constraint : constraintSet) {
-            System.out.println("Constraint: " + constraint);
+
             constraint.reduce();
             if (!constraint.isSatisfied()) {
-                System.out.println("Constraint not satisfied: " + constraint);
-
+                
                 return false;
             }
+
         }
 
         return true;
