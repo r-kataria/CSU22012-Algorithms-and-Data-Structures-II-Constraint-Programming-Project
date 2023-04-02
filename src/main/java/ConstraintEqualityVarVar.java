@@ -55,7 +55,8 @@ public class ConstraintEqualityVarVar extends Constraint {
         this.v2.d.vals = intersectionList;
 
         // Return true if the domains are not empty
-        return !this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty();
+        return (!this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty()) && intersectionList.size() > 0;
+        
     }
 
     public boolean involves(Variable variable) {

@@ -108,7 +108,7 @@ public class Domain {
      * @param d2 the domain to compare with this domain
      * @return true if the domains are equal, false otherwise
      */
-    private boolean equals(Domain d2) {
+    public boolean equals(Domain d2) {
         return vals.equals(d2.vals);
     }
 

@@ -35,16 +35,15 @@ public class ConstraintDifferenceVarVar extends Constraint {
      * @return true if the constraint is satisfied, false otherwise
      */
     protected boolean isSatisfied() {
-        // Take the intersection of the two domains
-        List<Integer> intersectionList = new ArrayList<>();
-        intersectionList = this.v1.d.intersection(this.v2.d);
-
-        // Check if the intersection is empty
-        if(intersectionList.size() == 0) {
+        if(v1.d.isReducedToOnlyOneValue()) {
+            int val = v1.d.vals.get(0);
+            return !v2.d.vals.contains(val);
+        } else if(v2.d.isReducedToOnlyOneValue()) {
+            int val = v2.d.vals.get(0);
+            return !v1.d.vals.contains(val);
+        } else {
             return true;
         }
-
-        return false;
     }
 
     /**
@@ -54,17 +53,24 @@ public class ConstraintDifferenceVarVar extends Constraint {
      */
     protected boolean reduce() {
  
+        boolean changed = false;
+
         if(v1.d.isReducedToOnlyOneValue()) {
-            int val = v1.d.vals.get(0);
-            v2.d.delete(val);
-        }
+            int val = v1.d.vals.get(0); 
+            if(v2.d.vals.contains(val)) {
+                v2.d.delete(val);
+                changed = true;
+            }
+           }
 
         if(v2.d.isReducedToOnlyOneValue()) {
-            int val = v2.d.vals.get(0);
-            v1.d.delete(val);
+           if(v1.d.vals.contains(v2.d.vals.get(0))) {
+               v1.d.delete(v2.d.vals.get(0));
+               changed = true;
+           }
         }
 
-        return !this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty();
+        return !this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty() && changed;
         
     }
 

@@ -70,14 +70,15 @@ public class ConstraintEqualityVarPlusCons extends Constraint {
 
         for(int i = 0; i < v1.d.vals.size(); i++) {
 
+            flag = false;
+
             for(int j = 0; j < v2.d.vals.size(); j++) {
-                if(!domainCheck(v1.d.vals.get(i), v2.d.vals.get(j))){
-                    flag = false;
-                    break;
+                if(domainCheck(v1.d.vals.get(i), v2.d.vals.get(j))){
+                    flag = true;
                 }
             }
 
-            if(!flag)
+            if(flag)
                 break;
         }
 
@@ -93,6 +94,8 @@ public class ConstraintEqualityVarPlusCons extends Constraint {
      */
     protected boolean reduce() {
 
+        boolean changed = false;
+
         List<Integer> d1_vals = new ArrayList<Integer>(this.v1.d.vals);
         List<Integer> d2_vals = new ArrayList<Integer>(this.v2.d.vals);
 
@@ -107,6 +110,7 @@ public class ConstraintEqualityVarPlusCons extends Constraint {
 
             if(!flag) {
                 v1.d.delete(d1_vals.get(i));
+                changed = true;
             }
         }
 
@@ -115,16 +119,18 @@ public class ConstraintEqualityVarPlusCons extends Constraint {
             Boolean flag = false;
 
             for(int j = 0; j < d1_vals.size(); j++) {
-                if(domainCheck(d2_vals.get(i), d1_vals.get(j)))
+                if(domainCheck(d1_vals.get(j), d2_vals.get(i)))
                     flag = true;
             }
 
             if(!flag) {
                 v2.d.delete(d2_vals.get(i));
+                changed = true;
             }
         }
 
-        if(v1.d.vals.size() == 0 || v2.d.vals.size() == 0)
+
+        if(v1.d.vals.size() == 0 || v2.d.vals.size() == 0 || !changed)
             return false;
 
         return true;

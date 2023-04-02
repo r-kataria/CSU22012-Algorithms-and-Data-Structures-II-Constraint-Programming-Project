@@ -54,6 +54,11 @@ public class ConstraintEqualityVarCons extends Constraint {
      */
     protected boolean reduce() {
 
+        // if already 1, return 0
+        if (this.v.d.isReducedToOnlyOneValue()) {
+            return false;
+        }
+
         // Remove all values from the domain except the constant
         for (int i = 0; i < this.v.getDomain().vals.size(); i++) {
             if (this.v.getDomain().vals.get(i) != this.cons) {
