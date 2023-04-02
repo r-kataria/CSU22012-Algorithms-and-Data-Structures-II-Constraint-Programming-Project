@@ -283,15 +283,31 @@ public class ConstraintSolver {
         }
     }
 
+    public ArrayList<String> printAnswer(String filename) {
 
-        
+        parse(filename);
+        reduce();
+
+        //each string is in the form "Sol-Zebra-5"
+        ArrayList<String> answer = new ArrayList<>();
+        for (Variable variable : variableSet) {
+            answer.add("Sol-" + variable.name + "-" + variable.d.vals.get(0));
+        }
+        return answer;
+    }
+
     
+
     public static void main(String[] args) {
         ConstraintSolver problem = new ConstraintSolver();
-        problem.parse("data.txt");
-        // System.out.println(problem);
-        problem.reduce();
-        System.out.println(problem);
+
+        ArrayList<String> answer = problem.printAnswer("data.txt");
+
+        for (String string : answer) {
+            System.out.println(string);
+        }
+        
+
     }
 
 }
