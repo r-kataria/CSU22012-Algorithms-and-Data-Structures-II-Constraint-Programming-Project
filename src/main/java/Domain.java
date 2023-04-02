@@ -1,21 +1,25 @@
 package main.java;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Domain {
 
-    int[] vals;
+    List<Integer> vals=new ArrayList<Integer>();
+
 
     /**
      * This is the constructor for the Domain class.
      * It takes an array of integers and creates a domain object.
      * 
-     * Time complexity: O(1)
+     * Time complexity: O(n)
      * 
      * @param vals the array of integers
      */
     public Domain(int[] vals) {
-        this.vals = vals;
+        for (int i = 0; i < vals.length; i++) {
+            this.vals.add(vals[i]);
+        }
     }
 
     /**
@@ -27,10 +31,8 @@ public class Domain {
      * @param d2 the domain to be copied
      */
     public Domain(Domain d2) {
-        vals = new int[d2.vals.length];
-
-        for (int i = 0; i < vals.length; i++) {
-            this.vals[i] = d2.vals[i];
+        for (int i = 0; i < d2.vals.size(); i++) {
+            this.vals.add(d2.vals.get(i));
         }
     }
 
@@ -45,17 +47,46 @@ public class Domain {
      */
     public String toString() {
         String result = "{";
-        for (int i = 0; i < vals.length; i++)
-            result += vals[i];
+        for (int i = 0; i < vals.size(); i++) {
+            result += vals.get(i);
+            if (i != vals.size() - 1) {
+                result += ", ";
+            }
+        }
         result += "}";
+
         return result;
     }
 
     /**
-     * @return
+     * Method to split the domain in two halves.
+     * 
+     * @return a list containing two domains that are the result of splitting the domain in half
      */
-    private Domain[] split() {
-        return (new Domain[2]);
+    public List<Domain> split() {
+        List<Domain> splitDomains = new ArrayList<>();
+
+        if(vals.size() == 1) {
+            splitDomains.add(this);
+        } else {
+            int mid = vals.size() / 2;
+
+            int[] firstDomain = new int[mid];
+            int[] secondDomain = new int[vals.size() - mid];
+
+            for (int i = 0; i < mid; i++) {
+                firstDomain[i] = vals.get(i);
+            }
+            for (int i = mid; i < vals.size(); i++) {
+                secondDomain[i - mid] = vals.get(i);
+            }
+
+            splitDomains.add(new Domain(firstDomain));
+            splitDomains.add(new Domain(secondDomain));
+        }
+        
+        return splitDomains;
+        
     }
 
     /**
@@ -65,33 +96,20 @@ public class Domain {
      * 
      * @return true if the domain is empty
      */
-    private boolean isEmpty() {
-        return vals.length == 0;
+    public boolean isEmpty() {
+        return vals.size() == 0;
     }
 
     /**
-     * Checks if this domain is equal to the specified domain.
-     * Two domains are considered equal if they have the same set of values,
-     * regardless of the order of the values.
-     *
-     * Time complexity: O(n log n)
+     * Method to check if the domain is equal to another domain.
+     * 
+     * Time complexity: O(n)
      * 
      * @param d2 the domain to compare with this domain
      * @return true if the domains are equal, false otherwise
      */
     private boolean equals(Domain d2) {
-        // If the domains have different sizes, they are not equal
-        if (this.vals.length != d2.vals.length) {
-            return false;
-        }
-
-        // Make a copy of the input domain's values and sort both arrays
-        int[] d2ValsSorted = Arrays.copyOf(d2.vals, d2.vals.length);
-        Arrays.sort(this.vals);
-        Arrays.sort(d2ValsSorted);
-
-        // Compare the sorted arrays for equality
-        return Arrays.equals(this.vals, d2ValsSorted);
+        return vals.equals(d2.vals);
     }
 
     /**
@@ -101,8 +119,49 @@ public class Domain {
      * 
      * @return true if the domain is reduced to only one value
      */
-    private boolean isReducedToOnlyOneValue() {
-        return vals.length == 1;
+    public boolean isReducedToOnlyOneValue() {
+        return vals.size() == 1;
+    }
+
+    /**
+     * Method to delete a value from the domain.
+     * 
+     * Time complexity: O(n)
+     * 
+     * @param val the value to be deleted
+     */
+    public void delete(int val) {
+
+        // Find the index of the value to be deleted
+        int index = vals.indexOf(val);
+
+        // If the value is in the domain, delete it
+        if (index != -1) {
+            vals.remove(index);
+        }
+
+    }
+
+
+    /**
+     * The method returns the intersection of this domain with another domain.
+     * 
+     * Time complexity: O(n)
+     * 
+     * @param d2
+     * @return the intersection of this domain with another domain
+     */
+    public List<Integer> intersection(Domain d2) {
+
+        List<Integer> intersectionList = new ArrayList<>();
+
+        for (int val : this.vals) {
+            if (d2.vals.contains(val)) {
+                intersectionList.add(val);
+            }
+        }
+
+        return intersectionList;
     }
 
 }

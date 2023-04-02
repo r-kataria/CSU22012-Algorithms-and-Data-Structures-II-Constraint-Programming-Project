@@ -2,18 +2,12 @@ package main.java;
 
 public abstract class Constraint {
 
-    public String toString() {
-        //TODO
-        return "";
-    }
+    public abstract String toString();
 
-    protected boolean isSatisfied() {
-        //TODO
-        return true;
-    }
+    protected abstract boolean isSatisfied();
 
-    protected void reduce() {
-        //TODO
-    }
+    protected abstract boolean reduce();
+
+    public abstract boolean involves(Variable variable);
 
 }
