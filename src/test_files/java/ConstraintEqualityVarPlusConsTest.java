@@ -46,6 +46,10 @@ public class ConstraintEqualityVarPlusConsTest {
     @Test
     public void testReduce() {
         assertTrue(constraint.reduce());
+
+        v1.setDomain(d1);
+        v2.setDomain(d2);
+
         assertTrue(constraintAbs.reduce());
         
         v1.setDomain(new Domain(new int[]{1, 2, 3}));

@@ -5,7 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 import main.java.Domain;
 
@@ -76,9 +77,9 @@ public class DomainTest {
     @Test
     public void testIntersection() {
         Domain otherDomain = new Domain(new int[] {3, 4, 5, 6, 7});
-        List<Integer> intersectionList = domain.intersection(otherDomain);
+        Set<Integer> intersectionList = domain.intersection(otherDomain);
 
-        List<Integer> expectedIntersection = new ArrayList<>();
+        Set<Integer> expectedIntersection = new HashSet<Integer>();
         expectedIntersection.add(3);
         expectedIntersection.add(4);
         expectedIntersection.add(5);
