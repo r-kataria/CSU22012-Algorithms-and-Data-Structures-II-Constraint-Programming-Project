@@ -1,7 +1,7 @@
 package main.java;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class ConstraintEqualityVarPlusCons extends Constraint {
 
@@ -67,75 +67,88 @@ public class ConstraintEqualityVarPlusCons extends Constraint {
 
         Boolean flag = true;
 
-        for (int i = 0; i < v1.d.vals.size(); i++) {
 
+        for (Integer value1 : this.v1.d.getVals()) {
             flag = false;
 
-            for (int j = 0; j < v2.d.vals.size(); j++) {
-                if (domainCheck(v1.d.vals.get(i), v2.d.vals.get(j))) {
+            for (Integer value2 : this.v2.d.getVals()) {
+                if (domainCheck(value1, value2)) {
                     flag = true;
                 }
             }
-
+            
             if (flag)
                 break;
         }
+
 
         return flag && !this.v1.d.isEmpty() && !this.v2.d.isEmpty();
 
     }
 
-    /**
-     * Reduces the domains by checking if the domain values +- constant are in the
-     * other domain
-     * 
-     * @return true if the domains are not empty, false otherwise
-     */
-    public boolean reduce() {
+/**
+ * Reduces the domains by checking if the domain values +- constant are in the
+ * other domain
+ *
+ * @return true if the domains are not empty, false otherwise
+ */
+/**
+ * Reduces the domains by checking if the domain values +- constant are in the
+ * other domain
+ *
+ * @return true if the domains are not empty, false otherwise
+ */
+public boolean reduce() {
+    boolean changed = false;
 
-        boolean changed = false;
+    Set<Integer> d1_vals = new HashSet<>(this.v1.d.getVals());
+    Set<Integer> d2_vals = new HashSet<>(this.v2.d.getVals());
+    Set<Integer> d1_valsToRemove = new HashSet<>();
+    Set<Integer> d2_valsToRemove = new HashSet<>();
 
-        List<Integer> d1_vals = new ArrayList<Integer>(this.v1.d.vals);
-        List<Integer> d2_vals = new ArrayList<Integer>(this.v2.d.vals);
+    for (Integer val1 : d1_vals) {
+        boolean flag = false;
 
-        for (int i = 0; i < d1_vals.size(); i++) {
-
-            Boolean flag = false;
-
-            for (int j = 0; j < d2_vals.size(); j++) {
-                if (domainCheck(d1_vals.get(i), d2_vals.get(j)))
-                    flag = true;
-            }
-
-            if (!flag) {
-                v1.d.delete(d1_vals.get(i));
-                changed = true;
-            }
+        for (Integer val2 : d2_vals) {
+            if (domainCheck(val1, val2))
+                flag = true;
         }
 
-        for (int i = 0; i < d2_vals.size(); i++) {
-
-            Boolean flag = false;
-
-            for (int j = 0; j < d1_vals.size(); j++) {
-                if (domainCheck(d1_vals.get(j), d2_vals.get(i)))
-                    flag = true;
-            }
-
-            if (!flag) {
-                v2.d.delete(d2_vals.get(i));
-                changed = true;
-            }
+        if (!flag) {
+            d1_valsToRemove.add(val1);
+            changed = true;
         }
-
-        if (v1.d.vals.size() == 0 || v2.d.vals.size() == 0 || !changed)
-            return false;
-
-            
-        return true;
-
     }
 
+    for (Integer val2 : d2_vals) {
+        boolean flag = false;
+
+        for (Integer val1 : d1_vals) {
+            if (domainCheck(val1, val2))
+                flag = true;
+        }
+
+        if (!flag) {
+            d2_valsToRemove.add(val2);
+            changed = true;
+        }
+    }
+
+    // Remove values from the domains after iteration is complete
+    for (Integer val : d1_valsToRemove) {
+        v1.d.delete(val);
+    }
+    for (Integer val : d2_valsToRemove) {
+        v2.d.delete(val);
+    }
+
+    if (v1.d.isEmpty() || v2.d.isEmpty() || !changed)
+        return false;
+
+    return true;
+}
+
+ 
     /**
      * Returns true if the constraint involves the given variable.
      * 

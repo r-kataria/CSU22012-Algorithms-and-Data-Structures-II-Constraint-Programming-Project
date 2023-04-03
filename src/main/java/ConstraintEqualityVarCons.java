@@ -1,5 +1,7 @@
 package main.java;
 
+import java.util.HashSet;
+
 public class ConstraintEqualityVarCons extends Constraint {
 
     Variable v;
@@ -23,7 +25,7 @@ public class ConstraintEqualityVarCons extends Constraint {
      */
     public String toString() {
         String result = "";
-        result += this.v + " = " + this.cons;
+        result += this.v;
         return result;
     }
 
@@ -41,7 +43,7 @@ public class ConstraintEqualityVarCons extends Constraint {
 
         // If the domain has only one value, but it is not the constant, the constraint
         // is not satisfied
-        if (this.v.d.vals.get(0) != this.cons) {
+        if (!this.v.d.contains(this.cons)) {
             return false;
         }
 
@@ -60,16 +62,15 @@ public class ConstraintEqualityVarCons extends Constraint {
             return false;
         }
 
-        // Remove all values from the domain except the constant
-        for (int i = 0; i < this.v.getDomain().vals.size(); i++) {
-            if (this.v.getDomain().vals.get(i) != this.cons) {
-                this.v.getDomain().vals.remove(i);
-                i--;
-            }
-        }
+        // Set the domain to the constant
+        HashSet<Integer> set = new HashSet<Integer>();     
+        set.add(this.cons);
+
+        this.v.d.setVals(set);
+        
 
         // If the domain is empty, return false
-        if (this.v.getDomain().vals.size() == 0) {
+        if (this.v.d.size() == 0) {
             return false;
         }
 

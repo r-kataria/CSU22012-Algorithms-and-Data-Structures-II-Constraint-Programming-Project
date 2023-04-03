@@ -1,7 +1,7 @@
 package main.java;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class ConstraintEqualityVarVar extends Constraint {
 
@@ -46,15 +46,15 @@ public class ConstraintEqualityVarVar extends Constraint {
      */
     public boolean reduce() {
         // Take the intersection of the two domains
-        List<Integer> intersectionList = new ArrayList<>();
-        intersectionList = this.v1.d.intersection(this.v2.d);
+        Set<Integer> intersection = new HashSet<>();
+        intersection = this.v1.d.intersection(this.v2.d);
 
         // Set the domains of the variables to the intersection
-        this.v1.d.vals = intersectionList;
-        this.v2.d.vals = intersectionList;
+        this.v1.d.setVals(intersection);
+        this.v2.d.setVals(intersection);
 
         // Return true if the domains are not empty
-        return (!this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty()) && intersectionList.size() > 0;
+        return (!this.v1.d.isEmpty() && !this.v2.d.isEmpty()) && intersection.size() > 0;
 
     }
 

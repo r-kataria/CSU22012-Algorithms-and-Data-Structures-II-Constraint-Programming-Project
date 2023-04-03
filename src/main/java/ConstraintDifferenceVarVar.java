@@ -33,44 +33,51 @@ public class ConstraintDifferenceVarVar extends Constraint {
      */
     public boolean isSatisfied() {
         if (v1.d.isReducedToOnlyOneValue()) {
-            int val = v1.d.vals.get(0);
-            return !v2.d.vals.contains(val);
+
+            return !v2.d.contains(v1.d.getFirstValue());
+       
         } else if (v2.d.isReducedToOnlyOneValue()) {
-            int val = v2.d.vals.get(0);
-            return !v1.d.vals.contains(val);
+            
+            return !v1.d.contains(v2.d.getFirstValue());
+        
         } else {
+        
             return true;
+       
         }
     }
 
-    /**
-     * Reduces the domains of the variables by removing the values that are certain
-     * to be in the other domain
-     * 
-     * @return true if the domains are not empty, false otherwise
-     */
-    public boolean reduce() {
+/**
+ * Reduces the domains of the variables by removing the values that are certain
+ * to be in the other domain
+ *
+ * @return true if the domains are not empty, false otherwise
+ */
+public boolean reduce() {
+    boolean changed = false;
 
-        boolean changed = false;
-
-        if (v1.d.isReducedToOnlyOneValue()) {
-            int val = v1.d.vals.get(0);
-            if (v2.d.vals.contains(val)) {
-                v2.d.delete(val);
-                changed = true;
-            }
+    if (v1.d.isReducedToOnlyOneValue()) {
+        
+        Integer val1 = v1.d.getFirstValue();
+        
+        if (v2.d.contains(val1)) {
+            v2.d.delete(val1);
+            changed = true;
         }
-
-        if (v2.d.isReducedToOnlyOneValue()) {
-            if (v1.d.vals.contains(v2.d.vals.get(0))) {
-                v1.d.delete(v2.d.vals.get(0));
-                changed = true;
-            }
-        }
-
-        return !this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty() && changed;
-
     }
+
+    if (v2.d.isReducedToOnlyOneValue()) {
+        
+        Integer val2 = v2.d.getFirstValue();
+
+        if (v1.d.contains(val2)) {
+            v1.d.delete(val2);
+            changed = true;
+        }
+    }
+
+    return !v1.d.isEmpty() && !v2.d.isEmpty() && changed;
+}
 
     /**
      * Returns true if the constraint involves the given variable

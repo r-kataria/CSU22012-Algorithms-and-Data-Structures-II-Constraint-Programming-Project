@@ -352,7 +352,7 @@ public class ConstraintSolver {
         ArrayList<String> answer = new ArrayList<>();
         for (Variable variable : variableSet) {
             // Each string is in the form "Sol-Zebra-5"
-            answer.add("Sol-" + variable.name + "-" + variable.d.vals.get(0));
+            answer.add("Sol-" + variable.name + "-" + variable.d.getFirstValue());
         }
 
         return answer;
