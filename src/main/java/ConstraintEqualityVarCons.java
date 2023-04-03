@@ -1,17 +1,17 @@
 package main.java;
 
 public class ConstraintEqualityVarCons extends Constraint {
-    
+
     Variable v;
     int cons;
 
     /**
      * Constructor
      * 
-     * @param v the variable
+     * @param v    the variable
      * @param cons the constant
      */
-    public ConstraintEqualityVarCons(Variable v, int cons){
+    public ConstraintEqualityVarCons(Variable v, int cons) {
         this.v = v;
         this.cons = cons;
     }
@@ -32,14 +32,15 @@ public class ConstraintEqualityVarCons extends Constraint {
      * 
      * @return true if the constraint is satisfied, false otherwise
      */
-    protected boolean isSatisfied() {
-        
+    public boolean isSatisfied() {
+
         // If the domain has more than one value, the constraint is not satisfied
         if (!this.v.d.isReducedToOnlyOneValue()) {
             return false;
         }
 
-        // If the domain has only one value, but it is not the constant, the constraint is not satisfied
+        // If the domain has only one value, but it is not the constant, the constraint
+        // is not satisfied
         if (this.v.d.vals.get(0) != this.cons) {
             return false;
         }
@@ -52,7 +53,7 @@ public class ConstraintEqualityVarCons extends Constraint {
      * 
      * @return true if the domain is not empty, false otherwise
      */
-    protected boolean reduce() {
+    public boolean reduce() {
 
         // if already 1, return 0
         if (this.v.d.isReducedToOnlyOneValue()) {
@@ -76,8 +77,12 @@ public class ConstraintEqualityVarCons extends Constraint {
 
     }
 
-
-
+    /**
+     * Returns true if the constraint involves the given variable
+     * 
+     * @param variable the variable
+     * @return true if the constraint involves the given variable, false otherwise
+     */
     public boolean involves(Variable variable) {
         return this.v.equals(variable);
     }

@@ -12,22 +12,37 @@ public class ConstraintSolver {
     private List<Variable> variableSet;
     private List<Constraint> constraintSet;
 
+    /**
+     * Constructor for the ConstraintSolver class
+     */
     public ConstraintSolver() {
         this.variableSet = new ArrayList<Variable>();
         this.constraintSet = new ArrayList<Constraint>();
     }
 
+    /**
+     * Returns a string representation of the variable set and the constraint set
+     * 
+     * @return a string representation of the variable set and the constraint set
+     */
     public String toString() {
-        // print variable
+        // Print variables
         for (int i = 0; i < variableSet.size(); i++)
             System.out.println(variableSet.get(i));
         System.out.println("");
-        // print constraints
+
+        // Print Constraints
         for (int i = 0; i < constraintSet.size(); i++)
             System.out.println(constraintSet.get(i));
         return "";
     }
 
+    /**
+     * Parses the input file and creates the variable set, the constraint set and
+     * domains
+     * 
+     * @param fileName the name of the input file
+     */
     private void parse(String fileName) {
         try {
             File inputFile = new File(fileName);
@@ -178,36 +193,44 @@ public class ConstraintSolver {
         }
     }
 
-    private boolean areConstraintsSatisfied(Variable variable) {
-        for (Constraint constraint : constraintSet) {
-            if (constraint.involves(variable) && !constraint.isSatisfied()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    /**
+     * This method is used to check if the current state of the CSP is a solution.
+     * 
+     * @return true if the CSP is a solution, false otherwise.
+     */
     private boolean isSolution() {
-        for (Constraint constraint : constraintSet) {
-            if (!constraint.isSatisfied()) {
+        // Check if all variables are reduced to only one value.
+        for (Variable variable : variableSet) {
+            if (variable.d.isReducedToOnlyOneValue()) {
+                continue;
+            } else {
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Selects the first unassigned variable from the variable set.
+     * 
+     * @return the first unassigned variable, or null if all variables are assigned
+     */
     private Variable selectUnassignedVariable() {
         for (Variable variable : variableSet) {
             if (!variable.d.isReducedToOnlyOneValue() && !variable.d.isEmpty()) {
                 return variable;
             }
         }
-        return null; // If all variables are assigned, return null.
+
+        // If all variables are assigned, return null.
+        return null;
     }
 
+    /**
+     * Reduces the domain of variables to find a solution.
+     */
     public void reduce() {
-
-        // Apply domain splitting.
+        // Apply domain splitting
         if (!reduceWithDomainSplitting()) {
             System.out.println("No solution found.");
         } else {
@@ -215,58 +238,83 @@ public class ConstraintSolver {
         }
     }
 
-   
-    
+    /**
+     * Recursively reduces the domain of variables using domain splitting.
+     *
+     * @return true if a solution is found, false otherwise
+     */
     private boolean reduceWithDomainSplitting() {
-        List<Variable> originalVariablesBeforeApplyingConstraints = deepCopyVariableSet(variableSet); // Create a deep copy of the variableSet before applying constraints
-        
-        if (!applyConstraintsRecursively()) {
+        // Create a deep copy of the variableSet before applying constraints
+        List<Variable> originalVariablesBeforeApplyingConstraints = deepCopyVariableSet(variableSet);
+
+        // Apply constraints recursively; if not successful, restore the variable set
+        // and return false
+        if (!applyConstraints()) {
             restoreVariableSet(variableSet, originalVariablesBeforeApplyingConstraints);
             return false;
         }
-    
+
+        // Select the next unassigned variable
         Variable selectedVariable = selectUnassignedVariable();
-        
+
+        // If no more unassigned variables, check if the current assignment is a
+        // solution
         if (selectedVariable == null) {
-            return isSolution(); // If no more unassigned variables, check if the current assignment is a solution.
+            return isSolution();
         }
-    
-        List<Variable> originalVariables = deepCopyVariableSet(variableSet); // Create a deep copy of the variableSet
-    
+
+        // Create a deep copy of the variableSet before splitting the domain
+        List<Variable> originalVariables = deepCopyVariableSet(variableSet);
+
+        // Split the selected variable's domain
         List<Domain> splitDomains = selectedVariable.d.split();
-    
+
+        // Iterate through each sub-domain resulting from the split
         for (Domain subDomain : splitDomains) {
+            // Set the selected variable's domain to the current sub-domain
             selectedVariable.setDomain(subDomain);
+
+            // Recursively call reduceWithDomainSplitting to find a solution with the
+            // updated domain
             if (reduceWithDomainSplitting()) {
-                return true; // If a solution is found, return true.
+                return true; // If a solution is found, return true
             } else {
+                // If no solution is found, restore the variable set to its original state
                 restoreVariableSet(variableSet, originalVariables);
             }
         }
-    
-        // If the loop finishes without finding a solution, restore the original domain of the selected variable.
+
+        // If the loop finishes without finding a solution, restore the original domain
+        // of the selected variable
         restoreVariableSet(variableSet, originalVariables);
-    
+
+        // Return false if no solution is found after iterating through all sub-domains
         return false;
     }
-    
 
-
-
-    private boolean applyConstraintsRecursively() {
+    /**
+     * Applies constraints iteratively to the constraint set.
+     * 
+     * @return true if all constraints are satisfied, false otherwise
+     */
+    private boolean applyConstraints() {
         for (Constraint constraint : constraintSet) {
-
             constraint.reduce();
             if (!constraint.isSatisfied()) {
-                
+
                 return false;
             }
-
         }
 
         return true;
     }
 
+    /**
+     * Creates a deep copy of the variable set.
+     * 
+     * @param variableSet the variable set to be copied
+     * @return a deep copy of the variable set
+     */
     private List<Variable> deepCopyVariableSet(List<Variable> variableSet) {
         List<Variable> copiedVariables = new ArrayList<>();
         for (Variable variable : variableSet) {
@@ -275,36 +323,58 @@ public class ConstraintSolver {
         return copiedVariables;
     }
 
+    /**
+     * Restores the variable set to its original state.
+     * 
+     * @param variableSet       the variable set to be restored
+     * @param originalVariables the original variable set
+     */
     private void restoreVariableSet(List<Variable> variableSet, List<Variable> originalVariables) {
         for (int i = 0; i < variableSet.size(); i++) {
             variableSet.get(i).setDomain(originalVariables.get(i).d);
         }
     }
 
+    /**
+     * Parses the input file, reduces the domain of variables, and returns the
+     * solution in the form of an ArrayList of Strings.
+     * 
+     * @param filename the name of the file containing the data
+     */
     public ArrayList<String> printAnswer(String filename) {
 
+        // Parse the input file
         parse(filename);
+
+        // Reduce the domain of variables
         reduce();
 
-        //each string is in the form "Sol-Zebra-5"
         ArrayList<String> answer = new ArrayList<>();
         for (Variable variable : variableSet) {
+            // Each string is in the form "Sol-Zebra-5"
             answer.add("Sol-" + variable.name + "-" + variable.d.vals.get(0));
         }
+
         return answer;
     }
 
-    
-
+    /**
+     * The main method.
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
+
+        // Create a new ConstraintSolver object
         ConstraintSolver problem = new ConstraintSolver();
 
+        // Parse the input file and reduce the domain of variables
         ArrayList<String> answer = problem.printAnswer("data.txt");
 
+        // Print the solution
         for (String string : answer) {
             System.out.println(string);
         }
-        
 
     }
 

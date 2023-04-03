@@ -3,9 +3,8 @@ package main.java;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class ConstraintEqualityVarVar extends Constraint {
-    
+
     Variable v1, v2;
 
     /**
@@ -26,7 +25,7 @@ public class ConstraintEqualityVarVar extends Constraint {
      */
     public String toString() {
         String result = "";
-            result += this.v1 + " = " + this.v2;
+        result += this.v1 + " = " + this.v2;
         return result;
     }
 
@@ -35,7 +34,7 @@ public class ConstraintEqualityVarVar extends Constraint {
      * 
      * @return true if the constraint is satisfied, false otherwise
      */
-    protected boolean isSatisfied() {
+    public boolean isSatisfied() {
         // If the domains are not equal, the constraint is not satisfied
         return this.v1.d.equals(v2.d) && !this.v1.d.isEmpty() && !this.v2.d.isEmpty();
     }
@@ -45,7 +44,7 @@ public class ConstraintEqualityVarVar extends Constraint {
      * 
      * @return true if the domains are not empty, false otherwise
      */
-    protected boolean reduce() {
+    public boolean reduce() {
         // Take the intersection of the two domains
         List<Integer> intersectionList = new ArrayList<>();
         intersectionList = this.v1.d.intersection(this.v2.d);
@@ -56,9 +55,15 @@ public class ConstraintEqualityVarVar extends Constraint {
 
         // Return true if the domains are not empty
         return (!this.v1.d.vals.isEmpty() && !this.v2.d.vals.isEmpty()) && intersectionList.size() > 0;
-        
+
     }
 
+    /**
+     * Returns true if the constraint involves the given variable.
+     * 
+     * @param variable the variable
+     * @return true if the constraint involves the given variable, false otherwise
+     */
     public boolean involves(Variable variable) {
         return this.v1.equals(variable) || this.v2.equals(variable);
     }

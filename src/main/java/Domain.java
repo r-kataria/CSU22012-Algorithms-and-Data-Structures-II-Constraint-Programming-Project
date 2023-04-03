@@ -5,14 +5,11 @@ import java.util.ArrayList;
 
 public class Domain {
 
-    List<Integer> vals=new ArrayList<Integer>();
-
+    List<Integer> vals = new ArrayList<Integer>();
 
     /**
      * This is the constructor for the Domain class.
      * It takes an array of integers and creates a domain object.
-     * 
-     * Time complexity: O(n)
      * 
      * @param vals the array of integers
      */
@@ -26,8 +23,6 @@ public class Domain {
      * This is the constructor for the Domain class.
      * It takes a Domain object and copies it.
      * 
-     * Time complexity: O(n)
-     * 
      * @param d2 the domain to be copied
      */
     public Domain(Domain d2) {
@@ -40,8 +35,6 @@ public class Domain {
      * Returns a string representation of the domain.
      * The string representation consists of a list of integers enclosed in braces
      * ({}) and separated by commas.
-     *
-     * Time complexity: O(n)
      * 
      * @return a string representation of the domain
      */
@@ -61,12 +54,13 @@ public class Domain {
     /**
      * Method to split the domain in two halves.
      * 
-     * @return a list containing two domains that are the result of splitting the domain in half
+     * @return a list containing two domains that are the result of splitting the
+     *         domain in half
      */
     public List<Domain> split() {
         List<Domain> splitDomains = new ArrayList<>();
 
-        if(vals.size() == 1) {
+        if (vals.size() == 1) {
             splitDomains.add(this);
         } else {
             int mid = vals.size() / 2;
@@ -84,15 +78,13 @@ public class Domain {
             splitDomains.add(new Domain(firstDomain));
             splitDomains.add(new Domain(secondDomain));
         }
-        
+
         return splitDomains;
-        
+
     }
 
     /**
      * Method to check if the domain is empty.
-     * 
-     * Time complexity: O(1)
      * 
      * @return true if the domain is empty
      */
@@ -102,8 +94,6 @@ public class Domain {
 
     /**
      * Method to check if the domain is equal to another domain.
-     * 
-     * Time complexity: O(n)
      * 
      * @param d2 the domain to compare with this domain
      * @return true if the domains are equal, false otherwise
@@ -115,8 +105,6 @@ public class Domain {
     /**
      * Method to check if the domain is reduced to only one value.
      * 
-     * Time complexity: O(1)
-     * 
      * @return true if the domain is reduced to only one value
      */
     public boolean isReducedToOnlyOneValue() {
@@ -125,8 +113,6 @@ public class Domain {
 
     /**
      * Method to delete a value from the domain.
-     * 
-     * Time complexity: O(n)
      * 
      * @param val the value to be deleted
      */
@@ -142,11 +128,8 @@ public class Domain {
 
     }
 
-
     /**
      * The method returns the intersection of this domain with another domain.
-     * 
-     * Time complexity: O(n)
      * 
      * @param d2
      * @return the intersection of this domain with another domain
